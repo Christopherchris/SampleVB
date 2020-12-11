@@ -13,29 +13,29 @@ steps:
     workingDirectory:  '$(Build.SourcesDirectory)\scripts'
     failOnStderr: true
   
-  - script: 'call $(Build.SourcesDirectory)\scripts\buildexe.bat'
-    displayName: 'Build SampleVB.exe'
-    workingDirectory: '$(Build.SourcesDirectory)\scripts'
-    failOnStderr: true
+  #- script: 'call $(Build.SourcesDirectory)\scripts\buildexe.bat'
+    #displayName: 'Build SampleVB.exe'
+    #workingDirectory: '$(Build.SourcesDirectory)\scripts'
+    #failOnStderr: true
   
-  - task: CopyFiles@2
-    displayName: 'Copy files to $(Build.BinariesDirectory)'
-    inputs:
-      sourceFolder: '$(Build.SourcesDirectory)'
-      contents: |
-        SampleVB.dll
-        SampleVB.pdb
-        SampleVB.exe
-        SampleVB.pdb
-      targetFolder: '$(Build.BinariesDirectory)'
-      cleanTargetFolder: true
+  #- task: CopyFiles@2
+    #displayName: 'Copy files to $(Build.BinariesDirectory)'
+    #inputs:
+      #sourceFolder: '$(Build.SourcesDirectory)'
+      #contents: |
+        #SampleVB.dll
+        #SampleVB.pdb
+        #SampleVB.exe
+        #SampleVB.pdb
+      #targetFolder: '$(Build.BinariesDirectory)'
+      #cleanTargetFolder: true
   
-  - task: ArchiveFiles@2
-    displayName: 'Archive $(Build.BinariesDirectory)'
-    inputs:
-      rootFolderOrFile: '$(Build.BinariesDirectory)'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/simpleVB-latest.zip' 
-      includeRootFolder: false
+  #- task: ArchiveFiles@2
+   # displayName: 'Archive $(Build.BinariesDirectory)'
+    #inputs:
+      #rootFolderOrFile: '$(Build.BinariesDirectory)'
+      #archiveFile: '$(Build.ArtifactStagingDirectory)/simpleVB-latest.zip' 
+      #includeRootFolder: false
   
   - task: PublishBuildArtifacts@1
     displayName: 'Publish artifact simpleVB'
