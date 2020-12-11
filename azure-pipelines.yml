@@ -10,7 +10,7 @@ pool:
 steps:
   - script: 'call $(Build.SourcesDirectory)\scripts\build.bat'
     displayName: 'Build SampleVB.dll'
-    workingDirectory:  '$(Build.SourcesDirectory)\scripts'
+    workingDirectory:  '$(Build.SourcesDirectory)'
     failOnStderr: true
   
   #- script: 'call $(Build.SourcesDirectory)\scripts\buildexe.bat'
