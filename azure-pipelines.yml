@@ -4,7 +4,8 @@ trigger:
 pr:
   - main
   
-pool: Default
+pool: 
+  vmImage: 'windows-latest'
 
 steps:
   - script: 'call $(Build.SourcesDirectory)\scripts\build.bat'
