@@ -42,27 +42,27 @@ steps:
       pathToPublish: '$(Build.ArtifactStagingDirectory)'
       artifactName: simpleVB
 
-  - task: GithubRelease@0
-    displayName: 'Remove release `simpleVB-latest` on github.com'
-    condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull')))
-    continueOnError: true
-    inputs:
-      githubConnection: github.com
-      repositoryName: Christopherchris/SampleVB
-      action: delete
-      tag: simpleVB-latest
+  # - task: GithubRelease@0
+  #   displayName: 'Remove release `simpleVB-latest` on github.com'
+  #   condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull')))
+  #   continueOnError: true
+  #   inputs:
+  #     githubConnection: github.com
+  #     repositoryName: Christopherchris/SampleVB
+  #     action: delete
+  #     tag: simpleVB-latest
   
-  - task: GithubRelease@0
-    displayName: 'Create release `simpleVB-latest` on github.com'
-    condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull')))
-    inputs:
-      githubConnection: github.com
-      repositoryName: Christopherchris/SampleVB
-      action: create
-      tagSource: manual
-      tag: simpleVB-latest
-      title: 'simpleVB latest build'
-      assets: $(Build.ArtifactStagingDirectory)/*
-      addChangeLog: true
-      compareWith: lastRelease
-      isPreRelease: true
+  # - task: GithubRelease@0
+  #   displayName: 'Create release `simpleVB-latest` on github.com'
+  #   condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull')))
+  #   inputs:
+  #     githubConnection: github.com
+  #     repositoryName: Christopherchris/SampleVB
+  #     action: create
+  #     tagSource: manual
+  #     tag: simpleVB-latest
+  #     title: 'simpleVB latest build'
+  #     assets: $(Build.ArtifactStagingDirectory)/*
+  #     addChangeLog: true
+  #     compareWith: lastRelease
+  #     isPreRelease: true
