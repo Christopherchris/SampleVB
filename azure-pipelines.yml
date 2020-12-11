@@ -40,7 +40,7 @@ steps:
   - task: PublishBuildArtifacts@1
     displayName: 'Publish artifact simpleVB'
     inputs:
-      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      pathToPublish: '$(Build.ArtifactStagingDirectory)/bin'
       artifactName: simpleVB
 
   # - task: GithubRelease@0
