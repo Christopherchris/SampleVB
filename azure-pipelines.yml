@@ -1,0 +1,68 @@
+trigger:
+  - main
+
+pr:
+  - main
+  
+pool: Default
+
+steps:
+  - script: 'call $(Build.SourcesDirectory)\scripts\build.bat'
+    displayName: 'Build SampleVB.dll'
+    workingDirectory:  '$(Build.SourcesDirectory)\scripts'
+    failOnStderr: true
+  
+  - script: 'call $(Build.SourcesDirectory)\scripts\buildexe.bat'
+    displayName: 'Build SampleVB.exe'
+    workingDirectory: '$(Build.SourcesDirectory)\scripts'
+    failOnStderr: true
+  
+  - task: CopyFiles@2
+    displayName: 'Copy files to $(Build.BinariesDirectory)'
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)'
+      contents: |
+        SampleVB.dll
+        SampleVB.pdb
+        SampleVB.exe
+        SampleVB.pdb
+      targetFolder: '$(Build.BinariesDirectory)'
+      cleanTargetFolder: true
+  
+  - task: ArchiveFiles@2
+    displayName: 'Archive $(Build.BinariesDirectory)'
+    inputs:
+      rootFolderOrFile: '$(Build.BinariesDirectory)'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/simpleVB-latest.zip' 
+      includeRootFolder: false
+  
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifact simpleVB'
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: simpleVB
+
+  - task: GithubRelease@0
+    displayName: 'Remove release `simpleVB-latest` on github.com'
+    condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull')))
+    continueOnError: true
+    inputs:
+      githubConnection: github.com
+      repositoryName: Christopherchris/SampleVB
+      action: delete
+      tag: simpleVB-latest
+  
+  - task: GithubRelease@0
+    displayName: 'Create release `simpleVB-latest` on github.com'
+    condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull')))
+    inputs:
+      githubConnection: github.com
+      repositoryName: Christopherchris/SampleVB
+      action: create
+      tagSource: manual
+      tag: simpleVB-latest
+      title: 'simpleVB latest build'
+      assets: $(Build.ArtifactStagingDirectory)/*
+      addChangeLog: true
+      compareWith: lastRelease
+      isPreRelease: true
